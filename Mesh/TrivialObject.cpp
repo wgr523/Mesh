@@ -95,6 +95,7 @@ namespace SimpleOBJ
     }
     void TrivialObject::DelVertex(int v1, int v0) //v0:replace must be before n
     {
+//        if (v0==223) std::cout<<v1<<' '<<v0<<'\n';
         m_bVertexDel[v1]=true;
         HE_edge* p;
         int tobreak;
@@ -103,7 +104,7 @@ namespace SimpleOBJ
         do
         {
             int i=p->incface;
-            if (m_bTriangleDel[i]) continue;
+            if (m_bTriangleDel[i]) {p=p->next->next->opposite;continue;}
             //				if (m_pTriangleList[i].findindex(v0)!=-1) DelTriangle(i);
             if (p->next->origin==v0 || p->next->next->origin==v0) DelTriangle(i);
             else

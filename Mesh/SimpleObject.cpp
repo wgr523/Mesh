@@ -342,23 +342,23 @@ namespace SimpleOBJ
         
     }
     
-    void CSimpleObject::DelVertex(int n, int replace) //replace must be before n
-    {
-        m_bVertexDel[n]=true;
-        
-        for (int i=0;i<m_nTriangles;i++)
-        {
-            int rindex = m_pTriangleList[i].findindex(n);
-            if ( rindex!=-1 )//|| m_pTriangleList[m].find(v2) )
-            {
-                int lindex = m_pTriangleList[i].findindex(replace);
-                if (lindex!=-1) DelTriangle(i);
-                else	m_pTriangleList[i][rindex]=replace;
-            }
-            
-        }
-    }
-    
+//    void CSimpleObject::DelVertex(int n, int replace) //replace must be before n
+//    {
+//        m_bVertexDel[n]=true;
+//        
+//        for (int i=0;i<m_nTriangles;i++)
+//        {
+//            int rindex = m_pTriangleList[i].findindex(n);
+//            if ( rindex!=-1 )//|| m_pTriangleList[m].find(v2) )
+//            {
+//                int lindex = m_pTriangleList[i].findindex(replace);
+//                if (lindex!=-1) DelTriangle(i);
+//                else	m_pTriangleList[i][rindex]=replace;
+//            }
+//            
+//        }
+//    }
+//    
     void CSimpleObject::DelTriangle(int n)
     {
         m_bTriangleDel[n]=true;

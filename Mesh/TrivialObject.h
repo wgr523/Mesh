@@ -16,7 +16,7 @@
 #include "Matr4.h"
 #include "HalfEdge.cpp"
 #include "Duo.cpp"
-#define THETA (0.3)
+#define THETA (0.5)
 namespace SimpleOBJ
 {
     class TrivialObject : public CSimpleObject
