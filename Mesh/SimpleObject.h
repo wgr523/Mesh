@@ -6,47 +6,47 @@
 
 namespace SimpleOBJ
 {
-    template <typename T, int N> class Array 
+    template <typename T, int N> class Array
     {
     public:
         enum {_len = N};
-        typedef T t_Val; 
+        typedef T t_Val;
     public:
         T& operator[] (int i)
         {
             assert(i>=0&&i<N);
             return _p[i];
         }
-        const T& operator[] (int i) const 
+        const T& operator[] (int i) const
         {
             assert(i>=0&&i<N);
             return _p[i];
         }
         bool find (T x)
         {
-        	for (int i=0;i<N;i++)
-        	{
-        		if (_p[i]==x) {
-        			return true;
-        		}
-        	}
-        	return false;
+            for (int i=0;i<N;i++)
+            {
+                if (_p[i]==x) {
+                    return true;
+                }
+            }
+            return false;
         }
         int findindex (T x)
         {
-        	for (int i=0;i<N;i++)
-        	{
-        		if (_p[i]==x) {
-        			return i;
-        		}
-        	}
-        	return -1;
+            for (int i=0;i<N;i++)
+            {
+                if (_p[i]==x) {
+                    return i;
+                }
+            }
+            return -1;
         }
-
+        
     protected:
         T _p[N];
     };
-
+    
     class CSimpleObject
     {
     public:
@@ -55,21 +55,23 @@ namespace SimpleOBJ
         
     public:
         bool IsLoaded() { return m_pVertexList!=NULL;}
-
+        
         void Destroy();
         bool LoadFromObj(const char* fn);
         bool SaveToObj(const char* fn);
+        bool SaveRealToObj(const char* fn);
         void calcRealVertex();
+        int getNumVertices() const;
         
     protected:
         bool Parse(FILE* fp);
         bool CheckParse(int nVertices,std::vector<Array<int,3> > & vecTriangles);
         void DelVertex(int n, int replace);
         void DelTriangle(int n);
-
-
+        
+        
     protected:
-
+        
         int             m_nVertices;
         int             m_nTriangles;
         Vec3f*          m_pVertexList;
@@ -77,5 +79,5 @@ namespace SimpleOBJ
         bool*			m_bVertexDel;
         bool*			m_bTriangleDel;
     };
-
+    
 }
