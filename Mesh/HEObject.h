@@ -1,3 +1,10 @@
+//
+//  HEObject.h
+//  Mesh
+//
+//  Created by Gary Wang on 16/1/13.
+//  Copyright © 2016年 Gary Wang. All rights reserved.
+//
 /*
  * TrivialObject.h
  *
@@ -14,17 +21,16 @@
 
 #include "SimpleObject.h"
 #include "Matr4.h"
-//#include "HalfEdge.cpp"
+#include "HalfEdge.cpp"
 #include "Duo.cpp"
-#define THETA (5)
+#define THETA (100)
 namespace SimpleOBJ
 {
-    class TrivialObject : public CSimpleObject
+    class HEObject : public CSimpleObject
     {
     public:
-        TrivialObject();
-//        void initHE();
-//        void showallHE();
+        void initHE();
+        void showallHE();
         //	void initQ();
         void initPair();
         //	void updateQ(int triangle);
@@ -35,8 +41,8 @@ namespace SimpleOBJ
         
         //	Matr4 *Q;
     protected:
-//        int* m_pVertexToEdge;
-//        HE_edge* m_pHalfEdgeList;
+        int* m_pVertexToEdge;
+        HE_edge* m_pHalfEdgeList;
         bool* m_bBoundary;
         //	std::vector<Duo> st;
         std::set<Duo> ss;
