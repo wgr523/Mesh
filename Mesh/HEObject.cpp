@@ -9,7 +9,38 @@
 #include "HEObject.h"
 namespace SimpleOBJ
 {
-    
+    void HEObject::Destroy()
+    {
+        if (m_pHalfEdgeList) delete [] m_pHalfEdgeList;
+        if (m_pVertexToEdge) delete [] m_pVertexToEdge;
+        if (m_bBoundary) delete [] m_bBoundary;
+    }
+//    void HEObject::checkSelfEdge()
+//    {
+//        for (int i=0;i<m_nVertices;i++)
+//            if (!m_bVertexDel[i])
+//            {
+//                if (m_pVertexToEdge[i]==-1) {std::cout<<"This is NULL\n";break;}
+//                HE_edge* p=m_pHalfEdgeList+m_pVertexToEdge[i];
+//                int tobreak=p->next->origin;
+//                //                std::cout<<"Node "<<i<<" neighbor are: ";
+//                int cnt=0;
+//                do
+//                {
+//                    cnt++;
+//                    //                    std::cout<<p->next->origin<<' ';
+//                    if (p->next->next->opposite==NULL) {break;}
+//                    if (p->next->origin==i) {
+//                        std::cout<<"Self-enjoy!\n";break;
+//                    }
+//                    p=p->next->next->opposite;
+//                }while(p->next->origin!=tobreak);
+//                if (m_bBoundary[i]) std::cout<<i<<"    And Is Boundary!\n";
+//                //                std::cout<<"\n";
+//                if (cnt<=2) std::cout<<i<<"    And Is Single!\n";
+//            }
+//
+//    }
     void HEObject::initHE()
     {
         if (m_pHalfEdgeList) delete [] m_pHalfEdgeList;
@@ -45,37 +76,57 @@ namespace SimpleOBJ
                     lis++;
                 }
             }
-        //        HE_edge* tmpp=m_pHalfEdgeList;
-        //        for (int i=0;i<3*m_nTriangles;i++)
-        //        {
-        //            if (tmpp->opposite==NULL) m_bBoundary[tmpp->origin]=true;
-        //            tmpp++;
-        //        }
+        HE_edge* tmpp=m_pHalfEdgeList;
+        for (int i=0;i<3*m_nTriangles;i++)
+        {
+            if (tmpp->opposite==NULL)
+            {
+                m_bBoundary[tmpp->origin]=true;
+                HE_edge* p=m_pHalfEdgeList+m_pVertexToEdge[tmpp->origin];// get to the right starting HE
+                while (p->opposite){
+                    p=p->opposite->next;
+                }
+                m_pVertexToEdge[tmpp->origin]=p-m_pHalfEdgeList;
+            }
+            tmpp++;
+        }
     }
     void HEObject::showallHE()
     {
-        for (int i=0;i<m_nVertices;i++)
+        FILE *f=fopen("/Users/mac/Downloads/Tsinghua/高等计算机图形学/Mesh_helper/HE.txt", "w");
+        fprintf(f, "----------------------------------------------------------\n");
+        bool tf=false;int singleman=0;
+        for (int i=0;i<m_nVertices;i++)//m_nVertices
             if (!m_bVertexDel[i])
             {
-                if (m_pVertexToEdge[i]==-1) {std::cout<<"NULLLL\n";break;}
+                if (m_bBoundary[i]) tf=true;
+                if (m_pVertexToEdge[i]==-1) {fprintf(f, "Some is NULL\n");break;}
                 HE_edge* p=m_pHalfEdgeList+m_pVertexToEdge[i];
                 int tobreak=p->next->origin;
-                std::cout<<"Node "<<i<<" neighbor are: ";
+//                std::cout<<"Node "<<i<<" neighbor are: ";
+                fprintf(f, "Node %d neighbor: ",i);
+                int cnt=0;
                 do
                 {
-                    std::cout<<p->next->origin<<' ';
+                    cnt++;
+                    fprintf(f, "%d ",p->next->origin);
+                    if (m_bVertexDel[p->next->origin]) fprintf(f, "(DEL) ");
+//                    std::cout<<p->next->origin<<' ';
                     if (p->next->next->opposite==NULL) {break;}
                     p=p->next->next->opposite;
                 }while(p->next->origin!=tobreak);
-                if (m_bBoundary[i]) std::cout<<"    And Is Boundary!\n";
-                std::cout<<"\n";
+                if (m_bBoundary[i]) fprintf(f, "is Boundary");
+                fprintf(f, "\n");
+//                std::cout<<"\n";
+                if (cnt<2) singleman++;
             }
-        //		HE_edge* tmpp=m_pHalfEdgeList;
-        //		for (int i=0;i<3*m_nTriangles;i++)
-        //		{
-        //			std::cout<<tmpp->origin<<' '<<tmpp->next->origin<<" OPPO "<<tmpp->opposite->origin<<' '<<tmpp->opposite->next->origin<<'\n';
-        //			tmpp++;
-        //		}
+        fclose(f);
+//        HE_edge* tmpp=m_pHalfEdgeList;
+//        for (int i=0;i<3*m_nTriangles;i++)
+//        {
+//            std::cout<<tmpp->origin<<' '<<tmpp->next->origin<<" OPPO "<<tmpp->opposite->origin<<' '<<tmpp->opposite->next->origin<<'\n';
+//            tmpp++;
+//        }
     }
     void HEObject::initPair()
     {
@@ -112,18 +163,19 @@ namespace SimpleOBJ
         tobreak=p->next->origin;
         do
         {
+            
             int i=p->incface;
             if (m_bTriangleDel[i]) {p=p->next->next->opposite;continue;}
             //				if (m_pTriangleList[i].findindex(v0)!=-1) DelTriangle(i);
             if (p->next->origin==v0 || p->next->next->origin==v0) DelTriangle(i);
             else
             {
-                //                float distan=(m_pVertexList[v0]-m_pVertexList[p->next->origin]).L2Norm_Sqr();
-                //                if ( distan < THETA )
-                //                {
-                //                    Duo duo(v0,p->next->origin,distan);
-                //                    ss.insert(duo);
-                //                }
+//                float distan=(m_pVertexList[v0]-m_pVertexList[p->next->origin]).L2Norm_Sqr();
+//                if ( distan < THETA )
+//                {
+//                    Duo duo(v0,p->next->origin,distan);
+//                    ss.insert(duo);
+//                }
                 int rindex = m_pTriangleList[i].findindex(v1);
                 if (rindex!=-1)
                     m_pTriangleList[i][rindex]=v0;
@@ -181,7 +233,7 @@ namespace SimpleOBJ
             if (m_bVertexDel[v0] || m_bVertexDel[v1] || m_bBoundary[v0] || m_bBoundary[v1] ) {continue;}
             else //if only 3 neighbor vertices, should not merge it.
             {
-                HE_edge* p0,* p1;
+                HE_edge* p0,* p1,* p2,* p3;
                 int cnt=0;
                 p0=m_pHalfEdgeList+m_pVertexToEdge[v0];
                 p1=m_pHalfEdgeList+m_pVertexToEdge[v1];
@@ -189,23 +241,68 @@ namespace SimpleOBJ
                 int tobreak1=p1->next->origin;
                 do
                 {
+                    if (p0->next->origin==v1) break;
+                    p0=p0->next->next->opposite;
+                }while(p0->next->origin!=tobreak0);
+                if (p0->next->origin!=v1) {std::cout<<"BUG:disconnect"<<v0<<' '<<v1<<"\n";continue;}
+                p2=p0->next->next;p3=p0->opposite->next->next;
+//                if (p2==NULL || p3==NULL) {std::cout<<"BUG:no third node"<<v0<<' '<<v1<<"\n";break;}
+                
+                bool tmpf=false;
+                p0=m_pHalfEdgeList+m_pVertexToEdge[v0];
+                do
+                {
+                    if (p0->next->origin==v0) {
+                        std::cout<<"Error of selfloop ";tmpf=true;break;
+                    }
+                    if (m_pTriangleList[p0->incface].findindex(v0)==-1)
+                    {
+                        std::cout<<"BUG:Triangle index err ";tmpf=true;break;
+                    }
+                    p0=p0->next->next->opposite;
+                }while(p0->next->origin!=tobreak0 && p0->next->origin!=v0);
+                do
+                {
+                    if (p1->next->origin==v1) {
+                        std::cout<<"Error of selfloop ";tmpf=true;break;
+                    }
+                    if (m_pTriangleList[p1->incface].findindex(v1)==-1)
+                    {
+                        std::cout<<"BUG:Triangle index err ";tmpf=true;break;
+                    }
+                    p1=p1->next->next->opposite;
+                }while(p1->next->origin!=tobreak1 && p1->next->origin!=v1);
+                if (tmpf) {std::cout<<v0<<' '<<v1<<"\n";continue;}
+
+                p0=m_pHalfEdgeList+m_pVertexToEdge[v0];
+                p1=m_pHalfEdgeList+m_pVertexToEdge[v1];
+                int tobreak2=p2->next->origin;
+                int tobreak3=p3->next->origin;
+//                p1=m_pHalfEdgeList+m_pVertexToEdge[v1];
+                do
+                {
+                    
                     cnt++;
                     p0=p0->next->next->opposite;
                     p1=p1->next->next->opposite;
-                    if (p0==NULL || p1==NULL) break;
-                }while(p0->next->origin!=tobreak0 && p1->next->origin!=tobreak1);
+                    p2=p2->next->next->opposite;
+                    p3=p3->next->next->opposite;
+                    if (p0==NULL || p1==NULL || p2==NULL ||p3==NULL) break;
+                }while(p0->next->origin!=tobreak0 && p1->next->origin!=tobreak1 && p2->next->origin!=tobreak2 && p3->next->origin!=tobreak3);
                 if (cnt<4) continue;
             }
-            HE_edge* p;
-            int tobreak;
-            
-            p=m_pHalfEdgeList+m_pVertexToEdge[v0];
-            tobreak=p->next->origin;
-            
+
+//            HE_edge* p;
+//            int tobreak;
+//            
+//            p=m_pHalfEdgeList+m_pVertexToEdge[v0];
+//            tobreak=p->next->origin;
+//            
+            m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
             DelVertex(v1,v0);
             
-            p=m_pHalfEdgeList+m_pVertexToEdge[v0];
-            tobreak=p->next->origin;
+//            p=m_pHalfEdgeList+m_pVertexToEdge[v0];
+//            tobreak=p->next->origin;
             
             return true;
         }

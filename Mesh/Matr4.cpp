@@ -1,5 +1,5 @@
 #include"Matr4.h"
-
+#include <iostream>
 Matr4::Matr4()
 {
     memset(m_values,0,sizeof(m_values));
@@ -91,20 +91,20 @@ void Matr4::SolveSP(float res[4]) const
     }
 }
 
-float Matr4::det() const
-{
-    int com[24][4]={{1,2,3,4}, {1,2,4,3}, {1,3,2,4}, {1,3,4,2}, {1,4,2,3}, {1,4,3,2}, {2,1,3,4}, {2,1,4,3}, {2,3,1,4}, {2,3,4,1}, {2,4,1,3}, {2,4,3,1}, {3,1,2,4}, {3,1,4,2}, {3,2,1,4}, {3,2,4,1}, {3,4,1,2}, {3,4,2,1}, {4,1,2,3}, {4,1,3,2}, {4,2,1,3}, {4,2,3,1}, {4,3,1,2}, {4,3,2,1}};
-    float pm[4]={1,-1,-1,1};
-    float res=0,ret;
-    for (int c=0;c<24;c++)
-    {
-        ret=1;
-        for (int i=0;i<4;i++)
-            ret*=m_values[i][com[c][i]-1];
-        res+=ret*pm[c%4];
-    }
-    return res;
-}
+//float Matr4::det() const
+//{
+//    int com[24][4]={{1,2,3,4}, {1,2,4,3}, {1,3,2,4}, {1,3,4,2}, {1,4,2,3}, {1,4,3,2}, {2,1,3,4}, {2,1,4,3}, {2,3,1,4}, {2,3,4,1}, {2,4,1,3}, {2,4,3,1}, {3,1,2,4}, {3,1,4,2}, {3,2,1,4}, {3,2,4,1}, {3,4,1,2}, {3,4,2,1}, {4,1,2,3}, {4,1,3,2}, {4,2,1,3}, {4,2,3,1}, {4,3,1,2}, {4,3,2,1}};
+//    float pm[4]={1,-1,-1,1};
+//    float res=0,ret;
+//    for (int c=0;c<24;c++)
+//    {
+//        ret=1;
+//        for (int i=0;i<4;i++)
+//            ret*=m_values[i][com[c][i]-1];
+//        res+=ret*pm[c%4];
+//    }
+//    return res;
+//}
 float Matr4::diagProd() const
 {
     return m_values[0][0]*m_values[1][1]*m_values[2][2]*m_values[3][3];
@@ -135,11 +135,18 @@ Matr4 Matr4::inducePrime() const
         res.m_values[1][j]=m_values[1][j];
         res.m_values[2][j]=m_values[2][j];
     }
-    for (int i=0;i<3;i++)
-        for (int j=0;j<=i;j++)
+    for (int i=1;i<3;i++)
+        for (int j=0;j<i;j++)
         {
-            res.m_values[i][j]=m_values[i][j];
+            res.m_values[i][j]=m_values[j][i];
         }
     return res;
+}
+void Matr4::showall() const
+{
+    for (int i=0;i<4;i++)
+        for (int j=0;j<4;j++)
+            std::cout<<m_values[i][j]<<' ';
+    std::cout<<'\n';
 }
 

@@ -11,7 +11,6 @@ namespace SimpleOBJ
     void TrivialObject::initPair()
     {
         std::set<std::pair<int,int> > record;
-//        record.clear();
         ss.clear();
         for (int i=0;i<m_nTriangles;i++)
         {
@@ -40,12 +39,49 @@ namespace SimpleOBJ
         m_bVertexDel[v1]=true;
         for (int i=0;i<m_nTriangles;i++)
         {
-            int rindex = m_pTriangleList[i].findindex(v1);
-            if ( rindex!=-1 )//|| m_pTriangleList[m].find(v2) )
+            if (!m_bTriangleDel[i])
             {
-                int lindex = m_pTriangleList[i].findindex(v0);
-                if (lindex!=-1) DelTriangle(i);
-                else	m_pTriangleList[i][rindex]=v0;
+                int rindex = m_pTriangleList[i].findindex(v1);
+                if ( rindex!=-1 )//|| m_pTriangleList[m].find(v2) )
+                {
+                    int lindex = m_pTriangleList[i].findindex(v0);
+                    if (lindex!=-1) DelTriangle(i);
+                    else
+                    {
+                        int p;
+                        if (rindex!=0)
+                        {
+                            p=m_pTriangleList[i][0];
+                            float distan=(m_pVertexList[v0]-m_pVertexList[p]).L2Norm_Sqr();
+                            if ( distan < THETA )
+                            {
+                                Duo duo(v0,p,distan);
+                                ss.insert(duo);
+                            }
+                        }
+                        if (rindex!=1)
+                        {
+                            p=m_pTriangleList[i][1];
+                            float distan=(m_pVertexList[v0]-m_pVertexList[p]).L2Norm_Sqr();
+                            if ( distan < THETA )
+                            {
+                                Duo duo(v0,p,distan);
+                                ss.insert(duo);
+                            }
+                        }
+                        if (rindex!=2)
+                        {
+                            p=m_pTriangleList[i][2];
+                            float distan=(m_pVertexList[v0]-m_pVertexList[p]).L2Norm_Sqr();
+                            if ( distan < THETA )
+                            {
+                                Duo duo(v0,p,distan);
+                                ss.insert(duo);
+                            }
+                        }
+                        m_pTriangleList[i][rindex]=v0;
+                    }
+                }
             }
         }
     }
@@ -57,6 +93,8 @@ namespace SimpleOBJ
             it=ss.begin();
             int v0=it->v0,v1=it->v1;
             ss.erase(it);
+            if (m_bVertexDel[v0] || m_bVertexDel[v1]) continue;
+            m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
             DelVertex(v1,v0);
             return true;
         }

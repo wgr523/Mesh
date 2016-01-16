@@ -20,15 +20,17 @@
 #include <utility>
 
 #include "SimpleObject.h"
-#include "Matr4.h"
+//#include "Matr4.h"
 #include "HalfEdge.cpp"
-#include "Duo.cpp"
-#define THETA (100)
+#include "Duo.h"
+#define THETA (5)
 namespace SimpleOBJ
 {
     class HEObject : public CSimpleObject
     {
     public:
+        void checkSelfEdge();
+        void Destroy();
         void initHE();
         void showallHE();
         //	void initQ();
@@ -37,14 +39,14 @@ namespace SimpleOBJ
         //	void deupdateQ(int triangle);
         bool MergeOnePair();
         void DelVertex(int v1, int v0);
-        //	void HeBing();
         
         //	Matr4 *Q;
-    protected:
+    private:
         int* m_pVertexToEdge;
         HE_edge* m_pHalfEdgeList;
         bool* m_bBoundary;
         //	std::vector<Duo> st;
+    protected:
         std::set<Duo> ss;
     };
 }

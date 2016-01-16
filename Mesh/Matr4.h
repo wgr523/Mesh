@@ -15,13 +15,14 @@ public:
 	Matr4 operator +(const Matr4 & m) const;
 	Matr4 operator -(const Matr4 & m) const;
 	Matr4 operator *(const Matr4 & m) const;
-	float det() const;
+//	float det() const;
 	Matr4 LU() const;
 	void SolveSP(float res[4]) const;
 	//solve Ux=b, b=[0 0 0 1];
 	float diagProd() const;
 	float inner(const SimpleOBJ::Vec3f & l,const SimpleOBJ::Vec3f & r) const;
 	Matr4 inducePrime() const;
+    void showall() const;
     //float getCell(int row, int col) const;
     //void setCell(int row, int col, float value);
 

@@ -13,10 +13,10 @@
 #include <utility>
 
 #include "SimpleObject.h"
-#include "Matr4.h"
+//#include "Matr4.h"
 //#include "HalfEdge.cpp"
-#include "Duo.cpp"
-#define THETA (5)
+#include "Duo.h"
+#define THETA (100)
 namespace SimpleOBJ
 {
     class TrivialObject : public CSimpleObject
