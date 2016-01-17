@@ -149,4 +149,18 @@ void Matr4::showall() const
             std::cout<<m_values[i][j]<<' ';
     std::cout<<'\n';
 }
-
+Matr4 Matr4::calc(const SimpleOBJ::Vec3f & v0, const SimpleOBJ::Vec3f & v1, const SimpleOBJ::Vec3f & v2)
+{
+    SimpleOBJ::Vec3f e1,e2;
+    e1=v1-v0;e2=v2-v0;
+    SimpleOBJ::Vec3f norm(
+               e1.z*e2.y-e1.y*e2.z,
+               e2.x*e1.z-e2.z*e1.x,
+               e1.x*e2.y-e1.y*e2.x
+               );
+    norm.Normalize();
+    SimpleOBJ::Vec3f tmp = norm*v0;
+    float d=-(tmp.x+tmp.y+tmp.z);
+    Matr4 up(norm,d);
+    return up;
+}

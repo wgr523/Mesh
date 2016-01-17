@@ -22,7 +22,7 @@ namespace SimpleOBJ
     class TrivialObject : public CSimpleObject
     {
     public:
-        TrivialObject();
+//        TrivialObject();
 //        void initHE();
 //        void showallHE();
         //	void initQ();

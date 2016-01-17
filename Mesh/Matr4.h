@@ -23,6 +23,7 @@ public:
 	float inner(const SimpleOBJ::Vec3f & l,const SimpleOBJ::Vec3f & r) const;
 	Matr4 inducePrime() const;
     void showall() const;
+    static Matr4 calc(const SimpleOBJ::Vec3f & v0, const SimpleOBJ::Vec3f & v1, const SimpleOBJ::Vec3f & v2);
     //float getCell(int row, int col) const;
     //void setCell(int row, int col, float value);
 

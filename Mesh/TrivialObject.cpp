@@ -4,10 +4,10 @@
 //#include <set>
 namespace SimpleOBJ
 {
-    TrivialObject::TrivialObject()
-    {
-        m_bBoundary = NULL;
-    }
+//    TrivialObject::TrivialObject()
+//    {
+//        m_bBoundary = NULL;
+//    }
     void TrivialObject::initPair()
     {
         std::set<std::pair<int,int> > record;
@@ -94,7 +94,30 @@ namespace SimpleOBJ
             int v0=it->v0,v1=it->v1;
             ss.erase(it);
             if (m_bVertexDel[v0] || m_bVertexDel[v1]) continue;
-            m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
+//            Matr4 q0,q1;
+//            for (int i=0;i<m_nTriangles;i++)
+//            {
+//                if (m_pTriangleList[i].findindex(v0)!=-1)
+//                    q0+=Matr4::calc(m_pVertexList[m_pTriangleList[i][0]],
+//                                    m_pVertexList[m_pTriangleList[i][1]],
+//                                    m_pVertexList[m_pTriangleList[i][2]]);
+//                if (m_pTriangleList[i].findindex(v0)!=-1)
+//                    q1+=Matr4::calc(m_pVertexList[m_pTriangleList[i][0]],
+//                                    m_pVertexList[m_pTriangleList[i][1]],
+//                                    m_pVertexList[m_pTriangleList[i][2]]);
+//
+//            }
+//            q0+=q1;
+//            Matr4 u=q0.inducePrime().LU();
+//            if (u.diagProd()>1e-6)
+//            {
+//                float x[4];
+//                u.SolveSP(x);
+//                Vec3f ret(x[0],x[1],x[2]);
+//                m_pVertexList[v0]=ret;
+//            }
+//            else
+//                m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
             DelVertex(v1,v0);
             return true;
         }
