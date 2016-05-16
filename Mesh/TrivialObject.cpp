@@ -4,14 +4,15 @@
 //#include <set>
 namespace SimpleOBJ
 {
-//    TrivialObject::TrivialObject()
-//    {
-//        m_bBoundary = NULL;
-//    }
+    //    TrivialObject::TrivialObject()
+    //    {
+    //        m_bBoundary = NULL;
+    //    }
     void TrivialObject::initPair()
     {
         std::set<std::pair<int,int> > record;
         ss.clear();
+        m_pVertexToFace = new std::set<int> [m_nVertices];
         for (int i=0;i<m_nTriangles;i++)
         {
             {
@@ -19,6 +20,7 @@ namespace SimpleOBJ
                 v[0]=m_pTriangleList[i][0]; v[1]=m_pTriangleList[i][1]; v[2]=m_pTriangleList[i][2];
                 for (int c=0;c<3;c++)
                 {
+                    m_pVertexToFace[v[c]].insert(i);
                     if (record.find(std::make_pair(v[c],v[(c+1)%3]) )==record.end() )
                     {
                         record.insert(std::make_pair(v[c],v[(c+1)%3]));
@@ -37,8 +39,12 @@ namespace SimpleOBJ
     void TrivialObject::DelVertex(int v1, int v0) //v0:replace must be before n
     {
         m_bVertexDel[v1]=true;
-        for (int i=0;i<m_nTriangles;i++)
+        std::set<int>::iterator it;
+        for (it=m_pVertexToFace[v1].begin();it!= m_pVertexToFace[v1].end();)
         {
+            int i=*it;
+            std::set<int>::iterator it2=it;
+            it2++;
             if (!m_bTriangleDel[i])
             {
                 int rindex = m_pTriangleList[i].findindex(v1);
@@ -83,7 +89,16 @@ namespace SimpleOBJ
                     }
                 }
             }
+            it=it2;
         }
+        m_pVertexToFace[v0].insert(m_pVertexToFace[v1].begin(), m_pVertexToFace[v1].end());
+    }
+    void TrivialObject::DelTriangle(int n)
+    {
+        m_bTriangleDel[n]=true;
+        m_pVertexToFace[m_pTriangleList[n][0]].erase(n);
+        m_pVertexToFace[m_pTriangleList[n][1]].erase(n);
+        m_pVertexToFace[m_pTriangleList[n][2]].erase(n);
     }
     bool TrivialObject::MergeOnePair()
     {
@@ -94,30 +109,7 @@ namespace SimpleOBJ
             int v0=it->v0,v1=it->v1;
             ss.erase(it);
             if (m_bVertexDel[v0] || m_bVertexDel[v1]) continue;
-//            Matr4 q0,q1;
-//            for (int i=0;i<m_nTriangles;i++)
-//            {
-//                if (m_pTriangleList[i].findindex(v0)!=-1)
-//                    q0+=Matr4::calc(m_pVertexList[m_pTriangleList[i][0]],
-//                                    m_pVertexList[m_pTriangleList[i][1]],
-//                                    m_pVertexList[m_pTriangleList[i][2]]);
-//                if (m_pTriangleList[i].findindex(v0)!=-1)
-//                    q1+=Matr4::calc(m_pVertexList[m_pTriangleList[i][0]],
-//                                    m_pVertexList[m_pTriangleList[i][1]],
-//                                    m_pVertexList[m_pTriangleList[i][2]]);
-//
-//            }
-//            q0+=q1;
-//            Matr4 u=q0.inducePrime().LU();
-//            if (u.diagProd()>1e-6)
-//            {
-//                float x[4];
-//                u.SolveSP(x);
-//                Vec3f ret(x[0],x[1],x[2]);
-//                m_pVertexList[v0]=ret;
-//            }
-//            else
-//                m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
+            m_pVertexList[v0]=(m_pVertexList[v0]+m_pVertexList[v1])/2;
             DelVertex(v1,v0);
             return true;
         }

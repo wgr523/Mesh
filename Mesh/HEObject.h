@@ -26,7 +26,7 @@ namespace SimpleOBJ
         void Destroy();
         void initHE();
         void initPair();
-        void showallHE();
+//        void showallHE();
         bool MergeOnePair();
         void DelVertex(int v1, int v0);
     private:

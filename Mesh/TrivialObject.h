@@ -22,23 +22,13 @@ namespace SimpleOBJ
     class TrivialObject : public CSimpleObject
     {
     public:
-//        TrivialObject();
-//        void initHE();
-//        void showallHE();
-        //	void initQ();
         void initPair();
-        //	void updateQ(int triangle);
-        //	void deupdateQ(int triangle);
         bool MergeOnePair();
         void DelVertex(int v1, int v0);
-        //	void HeBing();
-        
-        //	Matr4 *Q;
+        void DelTriangle(int n);
     protected:
-//        int* m_pVertexToEdge;
-//        HE_edge* m_pHalfEdgeList;
         bool* m_bBoundary;
-        //	std::vector<Duo> st;
+        std::set<int> * m_pVertexToFace;
         std::set<Duo> ss;
     };
 }

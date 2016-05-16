@@ -91,44 +91,7 @@ namespace SimpleOBJ
             tmpp++;
         }
     }
-    void HEObject::showallHE()
-    {
-        FILE *f=fopen("/Users/mac/Downloads/Tsinghua/高等计算机图形学/Mesh_helper/HE.txt", "w");
-        fprintf(f, "----------------------------------------------------------\n");
-        bool tf=false;int singleman=0;
-        for (int i=0;i<m_nVertices;i++)//m_nVertices
-            if (!m_bVertexDel[i])
-            {
-                if (m_bBoundary[i]) tf=true;
-                if (m_pVertexToEdge[i]==-1) {fprintf(f, "Some is NULL\n");break;}
-                HE_edge* p=m_pHalfEdgeList+m_pVertexToEdge[i];
-                int tobreak=p->next->origin;
-                //                std::cout<<"Node "<<i<<" neighbor are: ";
-                fprintf(f, "Node %d neighbor: ",i);
-                int cnt=0;
-                do
-                {
-                    cnt++;
-                    fprintf(f, "%d ",p->next->origin);
-                    if (m_bVertexDel[p->next->origin]) fprintf(f, "(DEL) ");
-                    //                    std::cout<<p->next->origin<<' ';
-                    if (p->next->next->opposite==NULL) {break;}
-                    p=p->next->next->opposite;
-                }while(p->next->origin!=tobreak);
-                if (m_bBoundary[i]) fprintf(f, "is Boundary");
-                fprintf(f, "\n");
-                //                std::cout<<"\n";
-                if (cnt<2) singleman++;
-            }
-        fclose(f);
-        //        HE_edge* tmpp=m_pHalfEdgeList;
-        //        for (int i=0;i<3*m_nTriangles;i++)
-        //        {
-        //            std::cout<<tmpp->origin<<' '<<tmpp->next->origin<<" OPPO "<<tmpp->opposite->origin<<' '<<tmpp->opposite->next->origin<<'\n';
-        //            tmpp++;
-        //        }
-    }
-    
+        
     void HEObject::initPair()
     {
         std::set<std::pair<int,int> > record;

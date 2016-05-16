@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4E1758541C478C2700B89E11 /* QObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1758521C478C2700B89E11 /* QObject.cpp */; };
 		4E7075CE1C45219400C008B0 /* SimpleObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E7075C31C45219400C008B0 /* SimpleObject.cpp */; };
 		4E7075CF1C45219400C008B0 /* TrivialObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E7075C41C45219400C008B0 /* TrivialObject.cpp */; };
 		4E7075D01C45219400C008B0 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E7075C51C45219400C008B0 /* Main.cpp */; };
@@ -31,8 +30,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4E1758521C478C2700B89E11 /* QObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QObject.cpp; sourceTree = "<group>"; };
-		4E1758531C478C2700B89E11 /* QObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QObject.hpp; sourceTree = "<group>"; };
 		4E7075B91C45216000C008B0 /* Mesh */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Mesh; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E7075C31C45219400C008B0 /* SimpleObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleObject.cpp; sourceTree = "<group>"; };
 		4E7075C41C45219400C008B0 /* TrivialObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrivialObject.cpp; sourceTree = "<group>"; };
@@ -85,8 +82,6 @@
 				4E7075D61C455BC900C008B0 /* HEObject.cpp */,
 				4E7075C51C45219400C008B0 /* Main.cpp */,
 				4E7075C61C45219400C008B0 /* TrivialObject.h */,
-				4E1758521C478C2700B89E11 /* QObject.cpp */,
-				4E1758531C478C2700B89E11 /* QObject.hpp */,
 				4E7075D51C455B8F00C008B0 /* HEObject.h */,
 				4E7075C71C45219400C008B0 /* SimpleObject.h */,
 				4E7075C81C45219400C008B0 /* Duo.cpp */,
@@ -162,7 +157,6 @@
 				4E7075D01C45219400C008B0 /* Main.cpp in Sources */,
 				4E7075D41C45219400C008B0 /* Vec3f.cpp in Sources */,
 				4E7075D31C45219400C008B0 /* HalfEdge.cpp in Sources */,
-				4E1758541C478C2700B89E11 /* QObject.cpp in Sources */,
 				4E7075CF1C45219400C008B0 /* TrivialObject.cpp in Sources */,
 				4E7075CE1C45219400C008B0 /* SimpleObject.cpp in Sources */,
 			);
